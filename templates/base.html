@@ -24,6 +24,7 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="/">Example Blog</a>
+        <h6 style="color: white; padding-top: 10px">{% if user.is_authenticated %} Welcome to {{ user.username }} {% endif %} </h6>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -32,12 +33,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/posts">Posts</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/auth/login">Login</a>
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else%}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login_user' %}">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/auth/register">Register</a>
                 </li>
+                {%endif%}
             </ul>
         </div>
     </div>
@@ -61,6 +68,7 @@
 <!-- Contact form JavaScript -->
 <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
 <script src="{% static  'js/jqBootstrapValidation.js'%}"></script>
+<script src=" {% static 'js/validate.js' %}"> </script>
 <script src="{% static  'js/contact_me.js'%}"></script>
 
 </body>

@@ -17,6 +17,8 @@
     </ol>
 
     <!-- Blog Post -->
+    {% for i in response %}
+
     <div class="card mb-4">
       <div class="card-body">
         <div class="row">
@@ -26,9 +28,9 @@
             </a>
           </div>
           <div class="col-lg-6">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <h2 class="card-title">{{ i.title }}</h2>
+            <p class="card-text"> {{ i.body }} </p>
+            <a href=" {% url 'post_details' i.id %}" class="btn btn-primary">Read More &rarr;</a>
           </div>
         </div>
       </div>
@@ -38,81 +40,46 @@
       </div>
     </div>
 
-    <!-- Blog Post -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-6">
-            <a href="#">
-              <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
-            </a>
-          </div>
-          <div class="col-lg-6">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer text-muted">
-        Posted on January 1, 2017 by
-        <a href="#">Start Bootstrap</a>
-      </div>
-    </div>
-
-    <!-- Blog Post -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-6">
-            <a href="#">
-              <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
-            </a>
-          </div>
-          <div class="col-lg-6">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer text-muted">
-        Posted on January 1, 2017 by
-        <a href="#">Start Bootstrap</a>
-      </div>
-    </div>
-
-    <!-- Blog Post -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-6">
-            <a href="#">
-              <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
-            </a>
-          </div>
-          <div class="col-lg-6">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer text-muted">
-        Posted on January 1, 2017 by
-        <a href="#">Start Bootstrap</a>
-      </div>
-    </div>
+    {% endfor %}
 
     <!-- Pagination -->
-    <ul class="pagination justify-content-center mb-4">
-      <li class="page-item">
-        <a class="page-link" href="#">&larr; Older</a>
-      </li>
-      <li class="page-item disabled">
-        <a class="page-link" href="#">Newer &rarr;</a>
-      </li>
-    </ul>
+    {% if response.has_other_pages %}
+              <ul class="pagination">
+                {% if response.has_previous %}
+                    <li class="page-item">
+                        <a href="?page={{ response.previous_page_number }}" class="page-link">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&laquo;</a>
+                    </li>
+                {% endif %}
+
+              {% for i in response.paginator.page_range %}
+                {% if response.number == i %}
+                  <li class="page-item active">
+                      <a class="page-link">{{ i }}</a>
+                  </li>
+                    
+                    {% else %}
+                    
+                    <li class="page-item">
+                        <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+                    </li>
+                    
+                  {% endif %}
+              {% endfor %}
+                {% if response.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{ response.next_page_number }}" class="page-link">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&raquo;</a>
+                    </li>
+                {% endif %}
+              </ul>
+            {% endif %}
 
   </div>
   <!-- /.container -->
